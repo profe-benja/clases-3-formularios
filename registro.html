@@ -62,21 +62,55 @@
             <div class="col-md-6">
                 <h1 class="text-center">Registro</h1>
 
+                <div class="alert alert-success" role="alert">
+                  Se ha creado correctamente!
+                </div>
+
                 <div class="card">
                     <div class="card-body">
                         <form action="" id="formulario">
-                            <div class="mb-3">
-                                <label for="" class="form-label">CORREO</label>
-                                <input type="email" class="form-control" id="correo" placeholder="name@example.com" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="" class="form-label">NOMBRE</label>
-                                <input type="text" class="form-control" id="nombre" placeholder="" required>
-                            </div>
 
-                            <div class="mb-3">
-                                <button type="submit" class="btn btn-outline-primary">ENVIAR</button>
+                          <div class="mb-3">
+                            <label for="" class="form-label">NOMBRE</label>
+                            <input type="text" class="form-control" id="nombre" placeholder="">
+                            <div class="invalid-feedback">
+                              El nombre es requerido
                             </div>
+                            <!-- <small class="text-danger">El nombre es requerido</small> -->
+                          </div>
+
+                          <div class="mb-3">
+                              <label for="" class="form-label">CORREO</label>
+                              <input type="email" class="form-control" id="correo" placeholder="name@example.com" required>
+                          </div>
+
+                          <div class="mb-3">
+                            <label for="" class="form-label">Rol</label>
+                            <select class="form-select" aria-label="Default select example" id="roles" onchange="cambiarRoles()">
+                              <option selected>Seleccione un rol</option>
+                              <option value="1">Alumno</option>
+                              <option value="2">Admin</option>
+                            </select>
+                          </div>
+
+                          <div class="mb-3" id="div-carrera">
+                            <label for="" class="form-label">CARRERA</label>
+                            <!-- <input type="text" class="form-control" id="carrera" placeholder="" required> -->
+                            <select class="form-select" aria-label="Default select example" id="carrera">
+                              <option value="1">Ingenieria</option>
+                              <option value="2">Enfermeria</option>
+                            </select>
+                          </div>
+
+                          <div class="mb-3" id="div-cargo">
+                            <label for="" class="form-label">CARGO</label>
+                            <input type="text" class="form-control" id="cargo" placeholder="">
+                          </div>
+
+
+                          <div class="mb-3">
+                              <button type="submit" class="btn btn-outline-primary">ENVIAR</button>
+                          </div>
                         </form>
                     </div>
                   </div>
@@ -88,17 +122,51 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
         document.getElementById('formulario').addEventListener("submit", function(event) {
             var correo = document.getElementById('correo').value;
             var nombre = document.getElementById('nombre').value;
 
-            if (correo == '' || nombre == '' ) {
-                alert('por favor. completa todos los campos');
-                event.preventDefault();
+            if (nombre == '' ) {
+              event.preventDefault();
+              document.getElementById('nombre').classList.add('is-invalid');
+            } else {
+              event.preventDefault();
+              Swal.fire(
+                'Good job!',
+                'You clicked the button!',
+                'success'
+              );
             }
+         
         });
+
+        function cambiarRoles() {
+          var rol = document.getElementById('roles').value;
+          var divCarrera = document.getElementById('div-carrera');
+          var divCargo = document.getElementById('div-cargo');
+
+          var cargo = document.getElementById('cargo');
+          cargo.value = '';
+        
+          if (rol == 1) {
+            // alumno
+            $("#cargo").removeAttr("required");
+
+            divCarrera.style.display = "block";
+            divCargo.style.display = "none";
+          } else {
+            // cargo
+            $("#cargo").attr("required", true);
+
+            divCarrera.style.display = "none";
+            divCargo.style.display = "block";
+          }
+        }
     </script>
   </body>
 </html>
